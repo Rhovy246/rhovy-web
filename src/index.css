@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+@theme {
+  --color-rhovy: #5B39C5;
+  --color-rhovy-light: #ede9fb;
+  --color-rhovy-dark: #4a2fa8;
+  --font-sans: 'Inter', system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background-color: #f8f7fc;
+  color: #1e1b2e;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100svh;
+}

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
+import { useAuth } from '../contexts/AuthContext';
 import { usePoints } from '../hooks/usePoints';
 import { useTransactions } from '../hooks/useTransactions';
 import { useProducts, useRedeem, useMyRedemptions } from '../hooks/useRedemptions';

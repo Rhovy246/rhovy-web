@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import { useAuth } from './hooks/useAuth';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import ReceiptSubmit from './pages/ReceiptSubmit';
@@ -32,7 +32,9 @@ export default function App() {
   return (
     <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
       <BrowserRouter>
-        <AuthRouter />
+        <AuthProvider>
+          <AuthRouter />
+        </AuthProvider>
       </BrowserRouter>
     </GoogleOAuthProvider>
   );

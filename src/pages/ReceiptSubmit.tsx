@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { apiRequest } from '../api/client';
 import imgLogo from '../assets/images/rhovy.png';
@@ -12,13 +12,15 @@ export default function ReceiptSubmit() {
   const [orderNumber, setOrderNumber] = useState('');
   const [amount, setAmount] = useState('');
   const [notes, setNotes] = useState('');
+  const [file, setFile] = useState<File | null>(null);
   const [status, setStatus] = useState<Status>('idle');
   const [errorMsg, setErrorMsg] = useState('');
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!merchant.trim() || !amount.trim()) {
-      setErrorMsg('Merchant name and order total are required.');
+    if (!merchant.trim() || !amount.trim() || !orderNumber.trim()) {
+      setErrorMsg('Merchant, order total, and order number are required.');
       return;
     }
     const parsed = parseFloat(amount);
@@ -26,18 +28,21 @@ export default function ReceiptSubmit() {
       setErrorMsg('Please enter a valid order total.');
       return;
     }
+    if (!file) {
+      setErrorMsg('Please attach a receipt screenshot or image.');
+      return;
+    }
     setStatus('submitting');
     setErrorMsg('');
     try {
-      await apiRequest('/api/submit-receipt', {
-        method: 'POST',
-        body: JSON.stringify({
-          merchant: merchant.trim(),
-          orderNumber: orderNumber.trim() || null,
-          amount: parsed,
-          notes: notes.trim() || null,
-        }),
-      });
+      const formData = new FormData();
+      formData.append('merchant', merchant.trim());
+      formData.append('orderNumber', orderNumber.trim());
+      formData.append('amount', String(parsed));
+      if (notes.trim()) formData.append('notes', notes.trim());
+      formData.append('receipt', file);
+
+      await apiRequest('/api/submit-receipt', { method: 'POST', body: formData });
       setStatus('success');
     } catch (err) {
       setErrorMsg(err instanceof Error ? err.message : 'Submission failed. Please try again.');
@@ -102,7 +107,6 @@ export default function ReceiptSubmit() {
               </div>
             )}
 
-            {/* Two collapsible options */}
             <div className="mt-9 flex flex-col">
               {([
                 {
@@ -157,12 +161,37 @@ export default function ReceiptSubmit() {
                         />
                         <Field
                           label="Order number"
+                          required
                           value={orderNumber}
                           onChange={setOrderNumber}
                           placeholder="#12345678"
                         />
+
+                        {/* File upload */}
                         <div>
-                          <div className="label-mono text-[#8b858f] mb-1.5">Notes (optional)</div>
+                          <div className="label-mono text-[#8b858f] mb-1.5">Receipt screenshot</div>
+                          <input
+                            ref={fileInputRef}
+                            type="file"
+                            accept="image/*,.pdf"
+                            className="hidden"
+                            onChange={e => setFile(e.target.files?.[0] ?? null)}
+                          />
+                          <button
+                            type="button"
+                            onClick={() => fileInputRef.current?.click()}
+                            className="w-full border border-dashed border-[#d0cdd4] rounded-lg py-4 px-4 text-sm text-[#5a555f] hover:border-[#8b858f] hover:text-[#171419] transition-colors text-left"
+                          >
+                            {file ? (
+                              <span className="text-[#171419] font-medium">{file.name}</span>
+                            ) : (
+                              <span>Tap to attach image or PDF…</span>
+                            )}
+                          </button>
+                        </div>
+
+                        <div>
+                          <div className="label-mono text-[#8b858f] mb-1.5">Notes <span className="normal-case tracking-normal">(optional)</span></div>
                           <textarea
                             value={notes}
                             onChange={e => setNotes(e.target.value)}
@@ -215,24 +244,18 @@ export default function ReceiptSubmit() {
 }
 
 function Field({
-  label, value, onChange, placeholder, required, optional, type = 'text',
+  label, value, onChange, placeholder, required, type = 'text',
 }: {
   label: string;
   value: string;
   onChange: (v: string) => void;
   placeholder?: string;
   required?: boolean;
-  optional?: boolean;
   type?: string;
 }) {
   return (
     <label className="block">
-      <div className="label-mono text-[#8b858f] mb-1.5">
-        {label}
-        {optional && (
-          <span className="ml-1.5 normal-case tracking-normal">(optional)</span>
-        )}
-      </div>
+      <div className="label-mono text-[#8b858f] mb-1.5">{label}</div>
       <input
         value={value}
         onChange={e => onChange(e.target.value)}

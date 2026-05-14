@@ -90,7 +90,7 @@ export default function Dashboard() {
     <div className="min-h-screen bg-[#fafafa] text-[#171419]">
       {/* Header — quiet, hairline border */}
       <header className="bg-white border-b border-[#ececef] sticky top-0 z-10">
-        <div className="max-w-2xl mx-auto px-5 py-3.5 flex items-center justify-between">
+        <div className="max-w-2xl mx-auto px-5 py-5 flex items-center justify-between">
           <div className="flex items-center">
             <img src={imgLogo} alt="Rhovy" className="h-6 w-auto" />
           </div>

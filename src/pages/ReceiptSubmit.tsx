@@ -108,132 +108,81 @@ export default function ReceiptSubmit() {
             )}
 
             <div className="mt-9 flex flex-col">
-              {([
-                {
-                  id: 'upload' as const,
-                  title: 'Upload a receipt',
-                  sub: 'Order details + screenshot. Reviewed within 48 hours.',
-                },
-                {
-                  id: 'email' as const,
-                  title: 'Forward your confirmation email',
-                  sub: 'hello@rhovy.com — we read the receipt automatically.',
-                },
-              ]).map(opt => {
-                const open = section === opt.id;
-                return (
-                  <div key={opt.id} className="border-t border-[#ececef]">
-                    <button
-                      onClick={() => setSection(open ? '' : opt.id)}
-                      className="w-full bg-transparent border-0 flex items-center gap-4 py-5 cursor-pointer text-left"
-                    >
-                      <div className="flex-1">
-                        <div className="text-[15px] font-medium text-[#171419] tracking-[-0.005em]">
-                          {opt.title}
-                        </div>
-                        <div className="text-[13px] text-[#5a555f] mt-0.5">{opt.sub}</div>
-                      </div>
-                      <svg
-                        width="16" height="16" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"
-                        className={`text-[#8b858f] transition-transform ${open ? 'rotate-180' : ''}`}
-                      >
-                        <path d="M6 9l6 6 6-6" />
-                      </svg>
-                    </button>
-
-                    {open && opt.id === 'upload' && (
-                      <form onSubmit={handleSubmit} className="pb-7 flex flex-col gap-4">
-                        <Field
-                          label="Merchant"
-                          required
-                          value={merchant}
-                          onChange={setMerchant}
-                          placeholder="Gymshark, Alo Yoga, DarcSport…"
-                        />
-                        <Field
-                          label="Order total (USD)"
-                          required
-                          type="number"
-                          value={amount}
-                          onChange={setAmount}
-                          placeholder="89.99"
-                        />
-                        <Field
-                          label="Order number"
-                          required
-                          value={orderNumber}
-                          onChange={setOrderNumber}
-                          placeholder="#12345678"
-                        />
-
-                        {/* File upload */}
-                        <div>
-                          <div className="label-mono text-[#8b858f] mb-1.5">Receipt screenshot</div>
-                          <input
-                            ref={fileInputRef}
-                            type="file"
-                            accept="image/*,.pdf"
-                            className="hidden"
-                            onChange={e => setFile(e.target.files?.[0] ?? null)}
-                          />
-                          <button
-                            type="button"
-                            onClick={() => fileInputRef.current?.click()}
-                            className="w-full border border-dashed border-[#d0cdd4] rounded-lg py-4 px-4 text-sm text-[#5a555f] hover:border-[#8b858f] hover:text-[#171419] transition-colors text-left"
-                          >
-                            {file ? (
-                              <span className="text-[#171419] font-medium">{file.name}</span>
-                            ) : (
-                              <span>Tap to attach image or PDF…</span>
-                            )}
-                          </button>
-                        </div>
-
-                        <div>
-                          <div className="label-mono text-[#8b858f] mb-1.5">Notes <span className="normal-case tracking-normal">(optional)</span></div>
-                          <textarea
-                            value={notes}
-                            onChange={e => setNotes(e.target.value)}
-                            placeholder="Any additional context…"
-                            rows={3}
-                            className="w-full bg-transparent border-0 border-b border-[#ececef] py-2 text-[15px] text-[#171419] focus:outline-none focus:border-[#171419] resize-none"
-                          />
-                        </div>
-                        <button
-                          type="submit"
-                          disabled={status === 'submitting'}
-                          className="self-start bg-[#171419] text-white border-0 rounded-full px-7 py-3 text-sm font-medium cursor-pointer hover:bg-black transition-colors disabled:opacity-60 mt-2"
-                        >
-                          {status === 'submitting' ? 'Submitting…' : 'Submit receipt →'}
-                        </button>
-                      </form>
-                    )}
-
-                    {open && opt.id === 'email' && (
-                      <div className="pb-7">
-                        <div className="bg-white border border-[#ececef] rounded p-5 flex items-center justify-between gap-4">
-                          <div>
-                            <div className="label-mono text-[#8b858f] mb-1">Forward to</div>
-                            <div className="text-lg font-medium text-[#171419] font-mono">
-                              hello@rhovy.com
-                            </div>
-                          </div>
-                          <button
-                            onClick={() => navigator.clipboard?.writeText('hello@rhovy.com')}
-                            className="bg-transparent border border-[#ececef] rounded-full px-3.5 py-2 text-xs font-medium text-[#171419] hover:border-[#8b858f] transition-colors"
-                          >
-                            Copy
-                          </button>
-                        </div>
-                        <p className="text-xs text-[#8b858f] mt-3 leading-[1.5]">
-                          Forward from the email tied to your Rhovy account. We'll credit your RHO within 48 hours.
-                        </p>
-                      </div>
-                    )}
+              {/* Option 1 — Upload */}
+              <div className="border-t border-[#ececef]">
+                <button
+                  onClick={() => setSection(section === 'upload' ? '' : 'upload')}
+                  className="w-full bg-transparent border-0 flex items-center gap-4 py-5 cursor-pointer text-left"
+                >
+                  <div className="flex-1">
+                    <div className="text-[15px] font-medium text-[#171419] tracking-[-0.005em]">Upload a receipt</div>
+                    <div className="text-[13px] text-[#5a555f] mt-0.5">Order details + screenshot. Reviewed within 48 hours.</div>
                   </div>
-                );
-              })}
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={`text-[#8b858f] transition-transform ${section === 'upload' ? 'rotate-180' : ''}`}>
+                    <path d="M6 9l6 6 6-6" />
+                  </svg>
+                </button>
+                {section === 'upload' && (
+                  <form onSubmit={handleSubmit} className="pb-7 flex flex-col gap-4">
+                    <Field label="Merchant" required value={merchant} onChange={setMerchant} placeholder="Gymshark, Alo Yoga, DarcSport…" />
+                    <Field label="Order total (USD)" required type="number" value={amount} onChange={setAmount} placeholder="89.99" />
+                    <Field label="Order number" required value={orderNumber} onChange={setOrderNumber} placeholder="#12345678" />
+                    <div>
+                      <div className="label-mono text-[#8b858f] mb-1.5">Receipt screenshot</div>
+                      <input ref={fileInputRef} type="file" accept="image/*,.pdf" className="hidden" onChange={e => setFile(e.target.files?.[0] ?? null)} />
+                      <button type="button" onClick={() => fileInputRef.current?.click()} className="w-full border border-dashed border-[#d0cdd4] rounded-lg py-4 px-4 text-sm text-[#5a555f] hover:border-[#8b858f] hover:text-[#171419] transition-colors text-left">
+                        {file ? <span className="text-[#171419] font-medium">{file.name}</span> : <span>Tap to attach image or PDF…</span>}
+                      </button>
+                    </div>
+                    <div>
+                      <div className="label-mono text-[#8b858f] mb-1.5">Notes <span className="normal-case tracking-normal">(optional)</span></div>
+                      <textarea value={notes} onChange={e => setNotes(e.target.value)} placeholder="Any additional context…" rows={3} className="w-full bg-transparent border-0 border-b border-[#ececef] py-2 text-[15px] text-[#171419] focus:outline-none focus:border-[#171419] resize-none" />
+                    </div>
+                    <button type="submit" disabled={status === 'submitting'} className="self-start bg-[#171419] text-white border-0 rounded-full px-7 py-3 text-sm font-medium cursor-pointer hover:bg-black transition-colors disabled:opacity-60 mt-2">
+                      {status === 'submitting' ? 'Submitting…' : 'Submit receipt →'}
+                    </button>
+                  </form>
+                )}
+              </div>
+
+              {/* Divider */}
+              <div className="flex items-center gap-4 py-2">
+                <div className="flex-1 h-px bg-[#ececef]" />
+                <span className="label-mono text-[#8b858f]">or</span>
+                <div className="flex-1 h-px bg-[#ececef]" />
+              </div>
+
+              {/* Option 2 — Email */}
+              <div className="border-t border-[#ececef]">
+                <button
+                  onClick={() => setSection(section === 'email' ? '' : 'email')}
+                  className="w-full bg-transparent border-0 flex items-center gap-4 py-5 cursor-pointer text-left"
+                >
+                  <div className="flex-1">
+                    <div className="text-[15px] font-medium text-[#171419] tracking-[-0.005em]">Forward your confirmation email</div>
+                    <div className="text-[13px] text-[#5a555f] mt-0.5">hello@rhovy.com — we read the receipt automatically.</div>
+                  </div>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={`text-[#8b858f] transition-transform ${section === 'email' ? 'rotate-180' : ''}`}>
+                    <path d="M6 9l6 6 6-6" />
+                  </svg>
+                </button>
+                {section === 'email' && (
+                  <div className="pb-7">
+                    <div className="bg-white border border-[#ececef] rounded p-5 flex items-center justify-between gap-4">
+                      <div>
+                        <div className="label-mono text-[#8b858f] mb-1">Forward to</div>
+                        <div className="text-lg font-medium text-[#171419] font-mono">hello@rhovy.com</div>
+                      </div>
+                      <button onClick={() => navigator.clipboard?.writeText('hello@rhovy.com')} className="bg-transparent border border-[#ececef] rounded-full px-3.5 py-2 text-xs font-medium text-[#171419] hover:border-[#8b858f] transition-colors">
+                        Copy
+                      </button>
+                    </div>
+                    <p className="text-xs text-[#8b858f] mt-3 leading-[1.5]">
+                      Forward from the email tied to your Rhovy account. We'll credit your RHO within 48 hours.
+                    </p>
+                  </div>
+                )}
+              </div>
               <div className="border-t border-[#ececef]" />
             </div>
           </>

@@ -16,7 +16,7 @@ interface RewardCardProps {
  * - Monospaced uppercase meta line
  * - Purple Redeem button (the single splash of brand color per row)
  *
- * NOTE: Props are unchanged from the original — only markup and classes
+ * Props are unchanged from the original — only markup and classes
  * are different.
  */
 export default function RewardCard({

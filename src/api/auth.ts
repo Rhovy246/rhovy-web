@@ -12,7 +12,7 @@ export interface AuthUser {
 export async function loginWithGoogleToken(googleAccessToken: string): Promise<AuthUser> {
   const data = await apiRequest<AuthUser>('/auth/google', {
     method: 'POST',
-    body: JSON.stringify({ token: googleAccessToken }),
+    body: JSON.stringify({ googleAccessToken }),
   });
   setToken(data.token);
   return data;

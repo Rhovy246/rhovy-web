@@ -1,30 +1,42 @@
 import { getProductImage } from '../constants';
 import type { Redemption } from '../api/redemptions';
 
+/**
+ * Direction A "Quiet" — a row in the My Rewards list.
+ * - Hairline bottom border (parent provides border-top)
+ * - Redemption code is the focal piece of metadata (monospaced)
+ * - Status: teal "● Ready" or muted "○ Used"
+ *
+ * NOTE: Props unchanged from original — only markup and classes are different.
+ */
 export default function SimpleRewardCard({ redemption }: { redemption: Redemption }) {
-  const statusColor = redemption.status === 'pending'
-    ? 'text-amber-600 bg-amber-50'
-    : 'text-green-600 bg-green-50';
+  const isReady = redemption.status === 'pending';
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 p-4 flex gap-4 items-center">
-      <img
-        src={getProductImage(redemption.item_name)}
-        alt={redemption.item_name}
-        className="w-14 h-14 rounded-xl object-cover shrink-0"
-      />
+    <div className="flex gap-4 items-center py-5 border-b border-[#ececef]">
+      <div className="w-14 h-14 rounded bg-[#f4f4f6] overflow-hidden shrink-0">
+        <img
+          src={getProductImage(redemption.item_name)}
+          alt={redemption.item_name}
+          className="w-full h-full object-cover"
+        />
+      </div>
       <div className="flex-1 min-w-0">
-        <p className="font-semibold text-gray-900 text-sm leading-snug">{redemption.item_name}</p>
+        <p className="text-sm font-medium text-[#171419] leading-snug">
+          {redemption.item_name}
+        </p>
         {redemption.redemption_code && (
-          <p className="text-xs text-gray-500 mt-0.5 font-mono">
-            Code: <span className="font-semibold text-gray-700">{redemption.redemption_code}</span>
+          <p className="label-mono text-[#8b858f] mt-1">
+            Code ·{' '}
+            <span className="text-[#171419] font-semibold">
+              {redemption.redemption_code}
+            </span>
           </p>
         )}
-        <span className={`inline-block mt-1.5 text-xs font-semibold px-2 py-0.5 rounded-full ${statusColor}`}>
-          {redemption.status === 'pending' ? 'Ready to use' : 'Used'}
-        </span>
       </div>
-      <span className="text-sm font-bold text-red-400 shrink-0">−{redemption.points.toLocaleString()} RHO</span>
+      <div className={`label-mono ${isReady ? 'text-[#06B4CC]' : 'text-[#8b858f]'}`}>
+        {isReady ? '● Ready' : '○ Used'}
+      </div>
     </div>
   );
 }

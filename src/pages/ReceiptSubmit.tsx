@@ -1,15 +1,16 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { apiRequest } from '../api/client';
-import imgLogo from '../assets/images/rhovy_circle_logo_new.png';
+import imgLogo from '../assets/images/rhovy.png';
 
 type Status = 'idle' | 'submitting' | 'success' | 'error';
+type Section = 'upload' | 'email' | '';
 
 export default function ReceiptSubmit() {
+  const [section, setSection] = useState<Section>('upload');
   const [merchant, setMerchant] = useState('');
   const [orderNumber, setOrderNumber] = useState('');
   const [amount, setAmount] = useState('');
-  const [orderUrl, setOrderUrl] = useState('');
   const [notes, setNotes] = useState('');
   const [status, setStatus] = useState<Status>('idle');
   const [errorMsg, setErrorMsg] = useState('');
@@ -34,7 +35,6 @@ export default function ReceiptSubmit() {
           merchant: merchant.trim(),
           orderNumber: orderNumber.trim() || null,
           amount: parsed,
-          orderUrl: orderUrl.trim() || null,
           notes: notes.trim() || null,
         }),
       });
@@ -46,117 +46,201 @@ export default function ReceiptSubmit() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8f7fc]">
-      <header className="bg-white border-b border-gray-100">
-        <div className="max-w-2xl mx-auto px-4 py-3 flex items-center gap-3">
-          <Link to="/" className="text-gray-400 hover:text-gray-600 text-sm">← Back</Link>
-          <div className="flex items-center gap-2">
-            <img src={imgLogo} alt="Rhovy" className="w-7 h-7" />
-            <span className="font-bold text-gray-900">Submit a Receipt</span>
+    <div className="min-h-screen bg-[#fafafa]">
+      <header className="bg-white border-b border-[#ececef] sticky top-0 z-10">
+        <div className="max-w-2xl mx-auto px-5 py-3.5 flex items-center justify-between">
+          <div className="flex items-center">
+            <img src={imgLogo} alt="Rhovy" className="h-6 w-auto" />
           </div>
+          <Link to="/" className="label-mono text-[#8b858f] hover:text-[#171419] transition-colors">
+            Dashboard →
+          </Link>
         </div>
       </header>
 
-      <div className="max-w-2xl mx-auto px-4 py-8">
+      <div className="max-w-2xl mx-auto px-5 pt-10 pb-20">
         {status === 'success' ? (
-          <div className="bg-white rounded-2xl border border-green-100 p-8 text-center">
-            <div className="text-4xl mb-3">✓</div>
-            <h2 className="text-lg font-bold text-gray-900">Receipt submitted!</h2>
-            <p className="text-sm text-gray-500 mt-2">
-              We'll review your purchase and add RHO to your account within 24–48 hours.
+          <div className="text-center pt-16">
+            <div className="w-14 h-14 rounded-full bg-[#e6f7fa] text-[#06B4CC] flex items-center justify-center mx-auto">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M20 6L9 17l-5-5" />
+              </svg>
+            </div>
+            <h2 className="text-[28px] font-medium text-[#171419] mt-6 tracking-[-0.02em]">
+              Receipt received.
+            </h2>
+            <p className="text-[15px] text-[#5a555f] mt-3 leading-[1.5] max-w-sm mx-auto">
+              We'll review and credit your RHO within 24–48 hours. You'll get an email when it lands.
             </p>
             <Link
               to="/"
-              className="inline-block mt-6 bg-[#5B39C5] text-white px-6 py-2.5 rounded-xl text-sm font-semibold hover:bg-[#4a2fa8] transition-colors"
+              className="inline-block mt-8 bg-[#171419] text-white px-7 py-3 rounded-full text-sm font-medium hover:bg-black transition-colors"
             >
               Back to dashboard
             </Link>
           </div>
         ) : (
-          <div className="bg-white rounded-2xl border border-gray-100 p-6">
-            <p className="text-sm text-gray-500 mb-6">
-              Didn't have the Chrome extension installed when you made a purchase? Submit your receipt here and we'll add your RHO manually.
-            </p>
+          <>
+            <Link
+              to="/"
+              className="label-mono text-[#8b858f] flex items-center gap-1.5 mb-7 hover:text-[#171419] transition-colors w-fit"
+            >
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M19 12H5M11 6l-6 6 6 6" />
+              </svg>
+              Dashboard
+            </Link>
+            <div className="label-mono text-[#5B39C5] mb-3">Get RHO</div>
+            <h1 className="text-[32px] font-medium text-[#171419] tracking-[-0.025em] m-0 leading-[1.15]">
+              Forgot the extension?{' '}
+              <span className="text-[#8b858f]">Submit your purchase here.</span>
+            </h1>
 
             {errorMsg && (
-              <div className="mb-4 bg-red-50 border border-red-100 text-red-600 rounded-xl px-4 py-3 text-sm">
+              <div className="mt-6 bg-red-50 border border-red-100 text-red-600 rounded-xl px-4 py-3 text-sm">
                 {errorMsg}
               </div>
             )}
 
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-              <div>
-                <label className="block text-xs font-semibold text-gray-600 mb-1">
-                  Merchant / Store name <span className="text-red-400">*</span>
-                </label>
-                <input
-                  type="text"
-                  value={merchant}
-                  onChange={e => setMerchant(e.target.value)}
-                  placeholder="e.g. Gymshark, Alo Yoga, DarcSport"
-                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-purple-400"
-                />
-              </div>
+            {/* Two collapsible options */}
+            <div className="mt-9 flex flex-col">
+              {([
+                {
+                  id: 'upload' as const,
+                  title: 'Upload a receipt',
+                  sub: 'Order details + screenshot. Reviewed within 48 hours.',
+                },
+                {
+                  id: 'email' as const,
+                  title: 'Forward your confirmation email',
+                  sub: 'hello@rhovy.com — we read the receipt automatically.',
+                },
+              ]).map(opt => {
+                const open = section === opt.id;
+                return (
+                  <div key={opt.id} className="border-t border-[#ececef]">
+                    <button
+                      onClick={() => setSection(open ? '' : opt.id)}
+                      className="w-full bg-transparent border-0 flex items-center gap-4 py-5 cursor-pointer text-left"
+                    >
+                      <div className="flex-1">
+                        <div className="text-[15px] font-medium text-[#171419] tracking-[-0.005em]">
+                          {opt.title}
+                        </div>
+                        <div className="text-[13px] text-[#5a555f] mt-0.5">{opt.sub}</div>
+                      </div>
+                      <svg
+                        width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"
+                        className={`text-[#8b858f] transition-transform ${open ? 'rotate-180' : ''}`}
+                      >
+                        <path d="M6 9l6 6 6-6" />
+                      </svg>
+                    </button>
 
-              <div>
-                <label className="block text-xs font-semibold text-gray-600 mb-1">
-                  Order total (USD) <span className="text-red-400">*</span>
-                </label>
-                <input
-                  type="number"
-                  value={amount}
-                  onChange={e => setAmount(e.target.value)}
-                  placeholder="e.g. 89.99"
-                  min="0.01"
-                  step="0.01"
-                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-purple-400"
-                />
-              </div>
+                    {open && opt.id === 'upload' && (
+                      <form onSubmit={handleSubmit} className="pb-7 flex flex-col gap-4">
+                        <Field
+                          label="Merchant"
+                          required
+                          value={merchant}
+                          onChange={setMerchant}
+                          placeholder="Gymshark, Alo Yoga, DarcSport…"
+                        />
+                        <Field
+                          label="Order total (USD)"
+                          required
+                          type="number"
+                          value={amount}
+                          onChange={setAmount}
+                          placeholder="89.99"
+                        />
+                        <Field
+                          label="Order number"
+                          value={orderNumber}
+                          onChange={setOrderNumber}
+                          placeholder="#12345678"
+                        />
+                        <div>
+                          <div className="label-mono text-[#8b858f] mb-1.5">Notes (optional)</div>
+                          <textarea
+                            value={notes}
+                            onChange={e => setNotes(e.target.value)}
+                            placeholder="Any additional context…"
+                            rows={3}
+                            className="w-full bg-transparent border-0 border-b border-[#ececef] py-2 text-[15px] text-[#171419] focus:outline-none focus:border-[#171419] resize-none"
+                          />
+                        </div>
+                        <button
+                          type="submit"
+                          disabled={status === 'submitting'}
+                          className="self-start bg-[#171419] text-white border-0 rounded-full px-7 py-3 text-sm font-medium cursor-pointer hover:bg-black transition-colors disabled:opacity-60 mt-2"
+                        >
+                          {status === 'submitting' ? 'Submitting…' : 'Submit receipt →'}
+                        </button>
+                      </form>
+                    )}
 
-              <div>
-                <label className="block text-xs font-semibold text-gray-600 mb-1">Order number (optional)</label>
-                <input
-                  type="text"
-                  value={orderNumber}
-                  onChange={e => setOrderNumber(e.target.value)}
-                  placeholder="e.g. #12345678"
-                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-purple-400"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-gray-600 mb-1">Order confirmation URL (optional)</label>
-                <input
-                  type="url"
-                  value={orderUrl}
-                  onChange={e => setOrderUrl(e.target.value)}
-                  placeholder="https://..."
-                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-purple-400"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-gray-600 mb-1">Notes (optional)</label>
-                <textarea
-                  value={notes}
-                  onChange={e => setNotes(e.target.value)}
-                  placeholder="Any additional context..."
-                  rows={3}
-                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-purple-400 resize-none"
-                />
-              </div>
-
-              <button
-                type="submit"
-                disabled={status === 'submitting'}
-                className="w-full bg-[#5B39C5] text-white py-3 rounded-xl font-semibold text-sm hover:bg-[#4a2fa8] transition-colors disabled:opacity-60"
-              >
-                {status === 'submitting' ? 'Submitting...' : 'Submit Receipt'}
-              </button>
-            </form>
-          </div>
+                    {open && opt.id === 'email' && (
+                      <div className="pb-7">
+                        <div className="bg-white border border-[#ececef] rounded p-5 flex items-center justify-between gap-4">
+                          <div>
+                            <div className="label-mono text-[#8b858f] mb-1">Forward to</div>
+                            <div className="text-lg font-medium text-[#171419] font-mono">
+                              hello@rhovy.com
+                            </div>
+                          </div>
+                          <button
+                            onClick={() => navigator.clipboard?.writeText('hello@rhovy.com')}
+                            className="bg-transparent border border-[#ececef] rounded-full px-3.5 py-2 text-xs font-medium text-[#171419] hover:border-[#8b858f] transition-colors"
+                          >
+                            Copy
+                          </button>
+                        </div>
+                        <p className="text-xs text-[#8b858f] mt-3 leading-[1.5]">
+                          Forward from the email tied to your Rhovy account. We'll credit your RHO within 48 hours.
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+              <div className="border-t border-[#ececef]" />
+            </div>
+          </>
         )}
       </div>
     </div>
+  );
+}
+
+function Field({
+  label, value, onChange, placeholder, required, optional, type = 'text',
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  placeholder?: string;
+  required?: boolean;
+  optional?: boolean;
+  type?: string;
+}) {
+  return (
+    <label className="block">
+      <div className="label-mono text-[#8b858f] mb-1.5">
+        {label}
+        {optional && (
+          <span className="ml-1.5 normal-case tracking-normal">(optional)</span>
+        )}
+      </div>
+      <input
+        value={value}
+        onChange={e => onChange(e.target.value)}
+        placeholder={placeholder}
+        type={type}
+        required={required}
+        className="w-full bg-transparent border-0 border-b border-[#ececef] py-2 text-[15px] text-[#171419] focus:outline-none focus:border-[#171419]"
+      />
+    </label>
   );
 }

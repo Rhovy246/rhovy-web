@@ -1,10 +1,22 @@
 @import "tailwindcss";
 
 @theme {
+  /* Existing brand tokens (kept for any code still using them) */
   --color-rhovy: #5B39C5;
   --color-rhovy-light: #ede9fb;
   --color-rhovy-dark: #4a2fa8;
   --font-sans: 'Inter', system-ui, sans-serif;
+
+  /* Direction A — Quiet palette */
+  --color-ink: #171419;
+  --color-ink-soft: #5a555f;
+  --color-ink-mute: #8b858f;
+  --color-hair: #ececef;
+  --color-hair-soft: #f4f4f6;
+  --color-rhovy-teal: #06B4CC;
+  --color-rhovy-teal-soft: #e6f7fa;
+
+  --font-mono: ui-monospace, 'SF Mono', Menlo, monospace;
 }
 
 * {
@@ -14,11 +26,20 @@
 body {
   margin: 0;
   font-family: var(--font-sans);
-  background-color: #f8f7fc;
-  color: #1e1b2e;
+  background-color: #fafafa;
+  color: #171419;
   -webkit-font-smoothing: antialiased;
 }
 
 #root {
   min-height: 100svh;
+}
+
+/* Reusable monospaced micro-label used throughout Direction A */
+.label-mono {
+  font-family: var(--font-mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 10px;
+  line-height: 1.4;
 }

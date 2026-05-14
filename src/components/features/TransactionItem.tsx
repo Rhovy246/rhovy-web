@@ -6,7 +6,7 @@ function formatDate(dateString: string) {
     ? '—'
     : date.toLocaleString('en-US', {
         month: 'short', day: 'numeric', year: 'numeric',
-        hour: '2-digit', minute: '2-digit', hour12: true,
+        hour: 'numeric', minute: '2-digit', hour12: true,
         timeZone: 'America/New_York',
       });
 }
@@ -19,20 +19,25 @@ export default function TransactionItem({ transaction }: { transaction: Transact
   const isEarned = transaction.delta > 0;
 
   return (
-    <div className="flex items-start justify-between gap-4 p-4 bg-white rounded-xl border border-gray-100 hover:border-purple-100 transition-colors">
+    <div className="flex items-start justify-between gap-4 py-[18px] border-b border-[#ececef]">
       <div className="flex-1 min-w-0">
-        <p className="font-semibold text-gray-900 text-sm truncate">{transaction.business}</p>
-        {transaction.amount !== undefined && transaction.currency && (
-          <p className="text-xs text-gray-500 mt-0.5">
-            Order total: {formatCurrency(transaction.amount, transaction.currency)}
-          </p>
-        )}
-        <p className="text-xs text-gray-400 mt-0.5">{formatDate(transaction.date)}</p>
+        <p className="text-sm font-medium text-[#171419] tracking-[-0.005em] truncate">
+          {transaction.business}
+        </p>
+        <p className="label-mono text-[#8b858f] mt-1">
+          {formatDate(transaction.date)}
+          {transaction.amount !== undefined && transaction.currency && (
+            <> · {formatCurrency(transaction.amount, transaction.currency)}</>
+          )}
+        </p>
       </div>
       <span
-        className={`text-sm font-bold shrink-0 ${isEarned ? 'text-green-600' : 'text-red-500'}`}
+        className={`text-sm font-medium tabular-nums shrink-0 ${
+          isEarned ? 'text-[#06B4CC]' : 'text-[#171419]'
+        }`}
       >
-        {isEarned ? '+' : ''}{transaction.delta.toLocaleString()} RHO
+        {isEarned ? '+' : ''}{transaction.delta.toLocaleString()}
+        <span className="label-mono text-[#8b858f] ml-1.5">RHO</span>
       </span>
     </div>
   );

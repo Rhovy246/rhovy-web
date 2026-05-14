@@ -19,8 +19,8 @@ export function useAuth() {
       setState({ user: null, loading: false });
       return;
     }
-    apiRequest<{ uid: string; email: string; role: string; totalPoints: number }>('/api/me')
-      .then(data => setState({ user: { ...data, name: null }, loading: false }))
+    apiRequest<{ uid: string; email: string; name: string | null; role: string; totalPoints: number }>('/api/me')
+      .then(data => setState({ user: { ...data }, loading: false }))
       .catch(() => {
         localStorage.removeItem('rhovy_jwt');
         setState({ user: null, loading: false });

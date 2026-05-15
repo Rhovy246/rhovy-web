@@ -1,4 +1,4 @@
-import imgPGMIA from '../assets/images/pgmia.png';
+import imgPGMIA from '../assets/images/PGMIA.png';
 import imgPre from '../assets/images/pre.png';
 import imgThavage from '../assets/images/thavage.png';
 import imgBellTop from '../assets/images/unique_belle.png';

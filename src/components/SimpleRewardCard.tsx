@@ -14,11 +14,11 @@ export default function SimpleRewardCard({ redemption }: { redemption: Redemptio
 
   return (
     <div className="flex gap-4 items-center py-5 border-b border-[#ececef]">
-      <div className="w-14 h-14 rounded bg-[#f4f4f6] overflow-hidden shrink-0">
+      <div className="w-14 h-14 shrink-0 flex items-center justify-center">
         <img
           src={getProductImage(redemption.item_name)}
           alt={redemption.item_name}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-contain"
         />
       </div>
       <div className="flex-1 min-w-0">

@@ -30,9 +30,9 @@ export function getProductImage(itemName: string): string {
   if (direct) return direct;
 
   const lower = itemName.toLowerCase();
+  if (lower.includes('thavage')) return imgThavage;
   if (lower.includes('total war')) return imgTotalWar;
   if (lower.includes('pre-workout') || lower.includes('preworkout')) return imgPre;
-  if (lower.includes('thavage')) return imgThavage;
   if (lower.includes('day pass')) return imgPGMIA;
   if (lower.includes('visa') || lower.includes('gift card')) return imgVisaGiftCard;
   if (lower.includes('belle top')) return imgBellTop;

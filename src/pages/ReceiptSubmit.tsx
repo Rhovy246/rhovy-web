@@ -137,9 +137,9 @@ export default function ReceiptSubmit() {
                 </button>
                 {section === 'upload' && (
                   <form onSubmit={handleSubmit} className="pb-7 flex flex-col gap-4">
-                    <Field label="Merchant" required value={merchant} onChange={setMerchant} placeholder="Gymshark, Alo Yoga, DarcSport…" />
-                    <Field label="Order total (USD)" required type="number" value={amount} onChange={setAmount} placeholder="89.99" />
-                    <Field label="Order number" required value={orderNumber} onChange={setOrderNumber} placeholder="#12345678" />
+                    <Field label="Merchant" required value={merchant} onChange={setMerchant} />
+                    <Field label="Order total (USD)" required type="number" value={amount} onChange={setAmount} />
+                    <Field label="Order number" required value={orderNumber} onChange={setOrderNumber} />
                     <div>
                       <div className="label-mono text-[#8b858f] mb-1.5">Receipt screenshot</div>
                       <input ref={fileInputRef} type="file" accept="image/*,.pdf" className="hidden" onChange={e => setFile(e.target.files?.[0] ?? null)} />
@@ -159,14 +159,12 @@ export default function ReceiptSubmit() {
               </div>
 
               {/* Divider */}
-              <div className="flex items-center gap-4 py-2">
-                <div className="flex-1 h-px bg-[#ececef]" />
-                <span className="label-mono text-[#8b858f]">or</span>
-                <div className="flex-1 h-px bg-[#ececef]" />
+              <div className="flex items-center justify-center py-3">
+                <span className="text-sm text-[#8b858f]">or</span>
               </div>
 
               {/* Option 2 — Email */}
-              <div className="border-t border-[#ececef]">
+              <div>
                 <button
                   onClick={() => setSection(section === 'email' ? '' : 'email')}
                   className="w-full bg-transparent border-0 flex items-center gap-4 py-5 cursor-pointer text-left"

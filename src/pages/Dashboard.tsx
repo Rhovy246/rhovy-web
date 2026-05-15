@@ -162,7 +162,7 @@ export default function Dashboard() {
                   <p className="text-[#bbb6c0] text-xs mt-1">Shop with a partner brand to earn RHO.</p>
                 </div>
               ) : (
-                <div className="border-t border-[#ececef]">
+                <div className="">
                   {transactions.map(t => (
                     <TransactionItem key={t.id} transaction={t} />
                   ))}
@@ -198,7 +198,7 @@ export default function Dashboard() {
                     </div>
                   )}
 
-                  <div className="border-t border-[#ececef]">
+                  <div className="">
                     {visibleProducts.map(product => (
                       <RewardCard
                         key={product.upc}
@@ -226,7 +226,7 @@ export default function Dashboard() {
                   <p className="text-[#8b858f] text-sm">No rewards redeemed yet.</p>
                 </div>
               ) : (
-                <div className="border-t border-[#ececef]">
+                <div className="">
                   {redemptions.map(r => (
                     <SimpleRewardCard key={r.id} redemption={r} />
                   ))}

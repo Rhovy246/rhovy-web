@@ -61,7 +61,7 @@ export default function ReceiptSubmit() {
           </div>
           <div className="flex items-center gap-3.5">
             <Link to="/" className="label-mono text-[#8b858f] hover:text-[#171419] transition-colors">
-              Dashboard →
+              Dashboard
             </Link>
             <div className="w-px h-4 bg-[#ececef]" />
             <span className="label-mono text-[#171419]">Get RHO</span>

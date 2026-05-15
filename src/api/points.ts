@@ -1,8 +1,8 @@
 import { apiRequest } from './client';
 
 export async function fetchPoints(): Promise<number> {
-  const data = await apiRequest<{ ok: boolean; points: number }>('/api/user-points');
-  return data.points;
+  const data = await apiRequest<{ totalPoints: number }>('/api/me');
+  return data.totalPoints;
 }
 
 export async function adminAdjustPoints(

@@ -101,7 +101,7 @@ export default function Dashboard() {
               to="/submit-receipt"
               className="label-mono text-[#8b858f] hover:text-[#171419] transition-colors"
             >
-              Get RHO →
+              Get RHO
             </Link>
             <div className="w-px h-4 bg-[#ececef]" />
             <button

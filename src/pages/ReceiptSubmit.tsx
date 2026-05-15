@@ -53,13 +53,17 @@ export default function ReceiptSubmit() {
   return (
     <div className="min-h-screen bg-[#fafafa]">
       <header className="bg-white border-b border-[#ececef] sticky top-0 z-10">
-        <div className="max-w-2xl mx-auto px-5 py-3.5 flex items-center justify-between">
+        <div className="max-w-2xl mx-auto px-5 py-5 flex items-center justify-between">
           <div className="flex items-center">
             <img src={imgLogo} alt="Rhovy" className="h-6 w-auto" />
           </div>
-          <Link to="/" className="label-mono text-[#8b858f] hover:text-[#171419] transition-colors">
-            Dashboard →
-          </Link>
+          <div className="flex items-center gap-3.5">
+            <Link to="/" className="label-mono text-[#8b858f] hover:text-[#171419] transition-colors">
+              Dashboard →
+            </Link>
+            <div className="w-px h-4 bg-[#ececef]" />
+            <span className="label-mono text-[#171419]">Get RHO</span>
+          </div>
         </div>
       </header>
 

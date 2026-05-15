@@ -95,9 +95,11 @@ export default function Dashboard() {
             <img src={imgLogo} alt="Rhovy" className="h-6 w-auto" />
           </div>
           <div className="flex items-center gap-3.5">
+            <span className="label-mono text-[#171419]">Dashboard</span>
+            <div className="w-px h-4 bg-[#ececef]" />
             <Link
               to="/submit-receipt"
-              className="label-mono text-[#171419] py-1.5 hover:opacity-70 transition-opacity"
+              className="label-mono text-[#8b858f] py-1.5 hover:text-[#171419] transition-colors"
             >
               Get RHO →
             </Link>

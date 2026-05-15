@@ -122,7 +122,7 @@ export default function ReceiptSubmit() {
 
             <div className="mt-9 flex flex-col">
               {/* Option 1 — Upload */}
-              <div className="border-t border-[#ececef]">
+              <div>
                 <button
                   onClick={() => setSection(section === 'upload' ? '' : 'upload')}
                   className="w-full bg-transparent border-0 flex items-center gap-4 py-5 cursor-pointer text-left"
@@ -148,8 +148,8 @@ export default function ReceiptSubmit() {
                       </button>
                     </div>
                     <div>
-                      <div className="label-mono text-[#8b858f] mb-1.5">Notes <span className="normal-case tracking-normal">(optional)</span></div>
-                      <textarea value={notes} onChange={e => setNotes(e.target.value)} placeholder="Any additional context…" rows={3} className="w-full bg-transparent border-0 border-b border-[#ececef] py-2 text-[15px] text-[#171419] focus:outline-none focus:border-[#171419] resize-none" />
+                      <div className="label-mono text-[#8b858f] mb-1">Notes <span className="normal-case tracking-normal">(optional)</span></div>
+                      <textarea value={notes} onChange={e => setNotes(e.target.value)} rows={3} className="w-full bg-transparent border-0 border-b border-[#ececef] py-2 text-[15px] text-[#171419] focus:outline-none focus:border-[#171419] resize-none" />
                     </div>
                     <button type="submit" disabled={status === 'submitting'} className="self-start bg-[#171419] text-white border-0 rounded-full px-7 py-3 text-sm font-medium cursor-pointer hover:bg-black transition-colors disabled:opacity-60 mt-2">
                       {status === 'submitting' ? 'Submitting…' : 'Submit receipt →'}
@@ -160,7 +160,7 @@ export default function ReceiptSubmit() {
 
               {/* Divider */}
               <div className="flex items-center justify-center py-3">
-                <span className="text-sm text-[#8b858f]">or</span>
+                <span className="label-mono text-[13px] text-[#8b858f]">or</span>
               </div>
 
               {/* Option 2 — Email */}
@@ -194,7 +194,6 @@ export default function ReceiptSubmit() {
                   </div>
                 )}
               </div>
-              <div className="border-t border-[#ececef]" />
             </div>
           </>
         )}

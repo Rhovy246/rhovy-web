@@ -1,33 +1,28 @@
-import imgPGMIA from '../assets/images/PGMIA.png';
-import imgUnique from '../assets/images/unique.png';
-import imgPreworkout from '../assets/images/preworkout.avif';
-import imgThavage from '../assets/images/thavage.webp';
-import imgCorePower from '../assets/images/corepower.png';
-import imgBellTop from '../assets/images/bell_top.png';
-import imgSaraSkirt from '../assets/images/sara_skirt.png';
-import imgMajoPants from '../assets/images/majo_pants.png';
-import imgVisaGiftCard from '../assets/images/visa_gift_card.png';
-import imgTotalWar from '../assets/images/total_war.png';
-import imgRawProtein from '../assets/images/raw_protein_shake.png';
-import imgLeanBody from '../assets/images/lean_body_protein_shake.png';
+import imgPGMIA from '../assets/images/pgmia.png';
+import imgPre from '../assets/images/pre.png';
+import imgThavage from '../assets/images/thavage.png';
+import imgBellTop from '../assets/images/unique_belle.png';
+import imgSaraSkirt from '../assets/images/unique_sara.png';
+import imgMajoPants from '../assets/images/unique_majo.png';
+import imgVisaGiftCard from '../assets/images/visa.png';
+import imgTotalWar from '../assets/images/totalwar.png';
+import imgLeanBody from '../assets/images/leanbody.png';
 
 export const BUSINESS_PARTNERS = {
   POWERHOUSE_GYM: { name: 'Powerhouse SoFlo', logo: imgPGMIA },
-  UNIQUE: { name: 'UNIQUE', logo: imgUnique },
+  UNIQUE: { name: 'UNIQUE', logo: imgBellTop },
 } as const;
 
 export const PRODUCT_IMAGES: Record<string, string> = {
-  'Scoop of Pre-Workout': imgPreworkout,
+  'Scoop of Pre-Workout': imgPre,
   'Bum Thavage 20% off': imgThavage,
-  'Core Power Protein 20% off': imgCorePower,
   'Day Pass 50% off': imgPGMIA,
   'Belle Top 15% off': imgBellTop,
   'Sara Button Skirt 15% off': imgSaraSkirt,
   'Majo Pants 15% off': imgMajoPants,
   '$25 Visa Gift Card': imgVisaGiftCard,
-  '20% Off RAW Protein Shake': imgRawProtein,
-  '20% Off Lean Body Protein Shake': imgLeanBody,
   '20% Off Total War Pre-Workout Drink': imgTotalWar,
+  '20% Off Lean Body Protein Shake': imgLeanBody,
 };
 
 export function getProductImage(itemName: string): string {
@@ -35,19 +30,18 @@ export function getProductImage(itemName: string): string {
   if (direct) return direct;
 
   const lower = itemName.toLowerCase();
-  if (lower.includes('core power') || lower.includes('corepower')) return PRODUCT_IMAGES['Core Power Protein 20% off'];
-  if (lower.includes('total war')) return PRODUCT_IMAGES['20% Off Total War Pre-Workout Drink'];
-  if (lower.includes('pre-workout') || lower.includes('preworkout')) return PRODUCT_IMAGES['Scoop of Pre-Workout'];
-  if (lower.includes('thavage')) return PRODUCT_IMAGES['Bum Thavage 20% off'];
-  if (lower.includes('day pass')) return PRODUCT_IMAGES['Day Pass 50% off'];
-  if (lower.includes('visa') || lower.includes('gift card')) return PRODUCT_IMAGES['$25 Visa Gift Card'];
-  if (lower.includes('belle top')) return PRODUCT_IMAGES['Belle Top 15% off'];
-  if (lower.includes('sara')) return PRODUCT_IMAGES['Sara Button Skirt 15% off'];
-  if (lower.includes('majo')) return PRODUCT_IMAGES['Majo Pants 15% off'];
-  if (lower.includes('lean body')) return PRODUCT_IMAGES['20% Off Lean Body Protein Shake'];
-  if (lower.includes('unique')) return imgUnique;
+  if (lower.includes('total war')) return imgTotalWar;
+  if (lower.includes('pre-workout') || lower.includes('preworkout')) return imgPre;
+  if (lower.includes('thavage')) return imgThavage;
+  if (lower.includes('day pass')) return imgPGMIA;
+  if (lower.includes('visa') || lower.includes('gift card')) return imgVisaGiftCard;
+  if (lower.includes('belle top')) return imgBellTop;
+  if (lower.includes('sara')) return imgSaraSkirt;
+  if (lower.includes('majo')) return imgMajoPants;
+  if (lower.includes('lean body')) return imgLeanBody;
+  if (lower.includes('unique')) return imgBellTop;
 
-  return BUSINESS_PARTNERS.POWERHOUSE_GYM.logo;
+  return imgPGMIA;
 }
 
 export function getBrandFromItemName(itemName: string): string {

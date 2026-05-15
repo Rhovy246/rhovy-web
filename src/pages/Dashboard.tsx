@@ -99,7 +99,7 @@ export default function Dashboard() {
             <div className="w-px h-4 bg-[#ececef]" />
             <Link
               to="/submit-receipt"
-              className="label-mono text-[#8b858f] py-1.5 hover:text-[#171419] transition-colors"
+              className="label-mono text-[#8b858f] hover:text-[#171419] transition-colors"
             >
               Get RHO →
             </Link>

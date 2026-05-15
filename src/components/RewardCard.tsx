@@ -52,17 +52,24 @@ export default function RewardCard({
         <span className="text-sm font-medium text-[#171419] tabular-nums">
           {points.toLocaleString()}
         </span>
-        <button
-          onClick={onRedeem}
-          disabled={isLoading || !canRedeem}
-          className={`rounded-full px-[14px] py-1.5 text-xs font-medium transition-colors whitespace-nowrap ${
-            canRedeem && !isLoading
-              ? 'bg-[#5B39C5] text-white hover:bg-[#4a2fa8] border border-[#5B39C5]'
-              : 'bg-transparent text-[#8b858f] border border-[#ececef] cursor-not-allowed'
-          }`}
-        >
-          {isLoading ? '…' : outOfStock ? 'Sold out' : needMore ? 'Need more' : 'Redeem'}
-        </button>
+        <div className="relative group">
+          <button
+            onClick={onRedeem}
+            disabled={isLoading || !canRedeem}
+            className={`rounded-full px-[14px] py-1.5 text-xs font-medium transition-colors whitespace-nowrap ${
+              canRedeem && !isLoading
+                ? 'bg-[#5B39C5] text-white hover:bg-[#4a2fa8] border border-[#5B39C5]'
+                : 'bg-transparent text-[#8b858f] border border-[#ececef] cursor-not-allowed'
+            }`}
+          >
+            {isLoading ? '…' : outOfStock ? 'Sold out' : 'Redeem'}
+          </button>
+          {needMore && !outOfStock && (
+            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2.5 py-1.5 bg-[#171419] text-white text-[11px] rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+              Insufficient RHO
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

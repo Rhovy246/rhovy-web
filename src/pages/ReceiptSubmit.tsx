@@ -1,12 +1,14 @@
 import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { apiRequest } from '../api/client';
+import { useAuth } from '../contexts/AuthContext';
 import imgLogo from '../assets/images/rhovy.png';
 
 type Status = 'idle' | 'submitting' | 'success' | 'error';
 type Section = 'upload' | 'email' | '';
 
 export default function ReceiptSubmit() {
+  const { logout } = useAuth();
   const [section, setSection] = useState<Section>('upload');
   const [merchant, setMerchant] = useState('');
   const [orderNumber, setOrderNumber] = useState('');
@@ -63,6 +65,13 @@ export default function ReceiptSubmit() {
             </Link>
             <div className="w-px h-4 bg-[#ececef]" />
             <span className="label-mono text-[#171419]">Get RHO</span>
+            <div className="w-px h-4 bg-[#ececef]" />
+            <button
+              onClick={logout}
+              className="label-mono text-[#8b858f] hover:text-[#171419] transition-colors bg-transparent border-0 cursor-pointer p-0"
+            >
+              Sign out
+            </button>
           </div>
         </div>
       </header>

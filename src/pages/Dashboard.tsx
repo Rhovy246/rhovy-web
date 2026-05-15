@@ -77,7 +77,7 @@ export default function Dashboard() {
   const categoriesPresent = Array.from(new Set(products.map(p => p.category).filter(Boolean)));
   const cats: { id: string; label: string }[] = [
     { id: 'all', label: 'All' },
-    ...categoriesPresent.map(c => ({ id: c, label: c.charAt(0).toUpperCase() + c.slice(1) })),
+    ...categoriesPresent.map(c => ({ id: c, label: c.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) })),
   ];
 
   const visibleProducts = filter === 'all'

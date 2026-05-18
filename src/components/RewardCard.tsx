@@ -40,12 +40,12 @@ export default function RewardCard({
         <p className="text-sm font-medium text-[#171419] tracking-[-0.005em] leading-snug">
           {title}
         </p>
-        <p className="label-mono text-[#8b858f] mt-1">
-          {subtitle}
-          {remaining != null && (
-            <> · {outOfStock ? 'Out of stock' : `${remaining} left`}</>
-          )}
-        </p>
+        <p className="label-mono text-[#8b858f] mt-1">{subtitle}</p>
+        {remaining != null && (
+          <p className="label-mono text-[#8b858f] mt-0.5">
+            {outOfStock ? 'Out of stock' : `${remaining} left`}
+          </p>
+        )}
       </div>
 
       <div className="flex items-center gap-3.5 shrink-0">

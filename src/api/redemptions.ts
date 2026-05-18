@@ -50,3 +50,10 @@ export async function resendRedemptionEmail(redemptionId: string): Promise<void>
     body: JSON.stringify({ redemptionId }),
   });
 }
+
+export async function dismissRedemption(redemptionId: string): Promise<void> {
+  await apiRequest('/api/dismiss-redemption', {
+    method: 'POST',
+    body: JSON.stringify({ redemptionId }),
+  });
+}

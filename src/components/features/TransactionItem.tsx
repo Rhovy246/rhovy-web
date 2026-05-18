@@ -33,7 +33,7 @@ export default function TransactionItem({ transaction }: { transaction: Transact
       </div>
       <span
         className={`text-sm font-medium tabular-nums shrink-0 ${
-          isEarned ? 'text-[#06B4CC]' : 'text-[#171419]'
+          isEarned ? 'text-[#16a34a]' : 'text-[#dc2626]'
         }`}
       >
         {isEarned ? '+' : ''}{transaction.delta.toLocaleString()}

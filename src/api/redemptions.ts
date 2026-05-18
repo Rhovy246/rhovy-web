@@ -42,3 +42,10 @@ export async function fetchRedemptions(): Promise<Redemption[]> {
   const data = await apiRequest<{ ok: boolean; data: Redemption[] }>('/api/user-redemptions');
   return data.data || [];
 }
+
+export async function resendRedemptionEmail(redemptionId: string): Promise<void> {
+  await apiRequest('/api/resend-redemption-email', {
+    method: 'POST',
+    body: JSON.stringify({ redemptionId }),
+  });
+}

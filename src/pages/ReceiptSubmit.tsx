@@ -9,7 +9,7 @@ type Section = 'upload' | 'email' | '';
 
 export default function ReceiptSubmit() {
   const { logout } = useAuth();
-  const [section, setSection] = useState<Section>('upload');
+  const [section, setSection] = useState<Section>('');
   const [merchant, setMerchant] = useState('');
   const [orderNumber, setOrderNumber] = useState('');
   const [amount, setAmount] = useState('');
@@ -160,7 +160,7 @@ export default function ReceiptSubmit() {
 
               {/* Divider */}
               <div className="flex items-center justify-center py-3">
-                <span className="label-mono text-[13px] text-[#8b858f]">or</span>
+                <span style={{ fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace', letterSpacing: '0.06em', textTransform: 'uppercase', fontSize: '15px', color: '#8b858f' }}>or</span>
               </div>
 
               {/* Option 2 — Email */}

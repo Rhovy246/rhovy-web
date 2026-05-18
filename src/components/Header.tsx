@@ -37,7 +37,7 @@ export default function Header({ currentPage, onSignOut }: HeaderProps) {
     <>
       <header className="bg-white border-b border-[#ececef] sticky top-0 z-10">
         <div className="max-w-2xl mx-auto px-5 py-5 flex items-center justify-between">
-          <img src={imgLogo} alt="Rhovy" className="h-6 w-auto" />
+          <Link to="/"><img src={imgLogo} alt="Rhovy" className="h-6 w-auto" /></Link>
 
           {/* Desktop nav */}
           <div className="hidden sm:flex items-center gap-3.5">

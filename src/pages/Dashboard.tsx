@@ -230,7 +230,7 @@ export default function Dashboard() {
               ) : (
                 <div className="">
                   {redemptions.map(r => (
-                    <SimpleRewardCard key={r.id} redemption={r} onDismiss={(id) => refreshRedemptions()} />
+                    <SimpleRewardCard key={r.id} redemption={r} onDismiss={() => refreshRedemptions()} />
                   ))}
                 </div>
               )}

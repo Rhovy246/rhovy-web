@@ -20,6 +20,7 @@ export interface Redemption {
   status: string;
   points: number;
   created_at: string;
+  brand?: string | null;
 }
 
 export async function fetchProducts(): Promise<Product[]> {

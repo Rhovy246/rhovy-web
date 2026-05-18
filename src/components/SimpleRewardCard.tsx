@@ -40,20 +40,15 @@ export default function SimpleRewardCard({ redemption }: { redemption: Redemptio
         <p className="text-sm font-medium text-[#171419] leading-snug">
           {redemption.item_name}
         </p>
-        {redemption.redemption_code && (
-          <p className="label-mono text-[#8b858f] mt-1">
-            Code ·{' '}
-            <span className="text-[#171419] font-semibold">
-              {redemption.redemption_code}
-            </span>
-          </p>
+        {redemption.brand && (
+          <p className="label-mono text-[#8b858f] mt-1">{redemption.brand}</p>
         )}
       </div>
       {isReady ? (
         <button
           onClick={handleResend}
           disabled={sending}
-          className="rounded-full px-[14px] py-1.5 text-xs font-medium border transition-colors whitespace-nowrap bg-transparent text-[#5a555f] border-[#ececef] hover:border-[#8b858f] disabled:opacity-50 cursor-pointer"
+          className="rounded-full px-[14px] py-1.5 text-xs font-medium border transition-colors whitespace-nowrap bg-[#5B39C5] text-white border-[#5B39C5] hover:bg-[#4a2fa8] disabled:opacity-50 cursor-pointer"
         >
           {sending ? '…' : sent ? 'Sent!' : 'Resend email'}
         </button>

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import Header from '../components/Header';
 import { useAuth } from '../contexts/AuthContext';
 import { usePoints } from '../hooks/usePoints';
 import { useTransactions } from '../hooks/useTransactions';
@@ -8,7 +8,6 @@ import { adminAdjustPoints } from '../api/points';
 import TransactionItem from '../components/features/TransactionItem';
 import RewardCard from '../components/RewardCard';
 import SimpleRewardCard from '../components/SimpleRewardCard';
-import imgLogo from '../assets/images/rhovy.png';
 
 type Tab = 'transactions' | 'redeem' | 'my-rewards' | 'admin';
 
@@ -88,31 +87,7 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-[#fafafa] text-[#171419]">
-      {/* Header — quiet, hairline border */}
-      <header className="bg-white border-b border-[#ececef] sticky top-0 z-10">
-        <div className="max-w-2xl mx-auto px-5 py-5 flex items-center justify-between">
-          <div className="flex items-center">
-            <img src={imgLogo} alt="Rhovy" className="h-6 w-auto" />
-          </div>
-          <div className="flex items-center gap-3.5">
-            <span className="label-mono text-[#171419]">Dashboard</span>
-            <div className="w-px h-4 bg-[#ececef]" />
-            <Link
-              to="/submit-receipt"
-              className="label-mono text-[#8b858f] hover:text-[#171419] transition-colors"
-            >
-              Get RHO
-            </Link>
-            <div className="w-px h-4 bg-[#ececef]" />
-            <button
-              onClick={logout}
-              className="label-mono text-[#8b858f] hover:text-[#171419] transition-colors bg-transparent border-0 cursor-pointer p-0"
-            >
-              Sign out
-            </button>
-          </div>
-        </div>
-      </header>
+      <Header currentPage="dashboard" onSignOut={logout} />
 
       <div className="max-w-2xl mx-auto px-5 pt-10 pb-20">
         {/* Hero — points as a big understated number */}

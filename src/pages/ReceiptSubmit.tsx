@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { apiRequest } from '../api/client';
 import { useAuth } from '../contexts/AuthContext';
-import imgLogo from '../assets/images/rhovy.png';
+import Header from '../components/Header';
 
 type Status = 'idle' | 'submitting' | 'success' | 'error';
 type Section = 'upload' | 'email' | '';
@@ -54,27 +54,7 @@ export default function ReceiptSubmit() {
 
   return (
     <div className="min-h-screen bg-[#fafafa]">
-      <header className="bg-white border-b border-[#ececef] sticky top-0 z-10">
-        <div className="max-w-2xl mx-auto px-5 py-5 flex items-center justify-between">
-          <div className="flex items-center">
-            <img src={imgLogo} alt="Rhovy" className="h-6 w-auto" />
-          </div>
-          <div className="flex items-center gap-3.5">
-            <Link to="/" className="label-mono text-[#8b858f] hover:text-[#171419] transition-colors">
-              Dashboard
-            </Link>
-            <div className="w-px h-4 bg-[#ececef]" />
-            <span className="label-mono text-[#171419]">Get RHO</span>
-            <div className="w-px h-4 bg-[#ececef]" />
-            <button
-              onClick={logout}
-              className="label-mono text-[#8b858f] hover:text-[#171419] transition-colors bg-transparent border-0 cursor-pointer p-0"
-            >
-              Sign out
-            </button>
-          </div>
-        </div>
-      </header>
+      <Header currentPage="get-rho" onSignOut={logout} />
 
       <div className="max-w-2xl mx-auto px-5 pt-10 pb-20">
         {status === 'success' ? (
